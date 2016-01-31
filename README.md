@@ -1,1 +1,5 @@
-The Rover is an obstacle avoidance robot. It just runs full steam ahead until it detects an obstacle in its path at which point it turns and then continues to move forward. The Rover is built on a Raspberry Pi 2 running Microsoft Windows IoT Core. A full description of the project along with a parts list and assembly instructions can be found at http://www.hackster.io/peejster/rover
+This is a modification of the Rover project @ http://www.hackster.io/peejster/rover and is effectivelly a voice controlled rover built on Raspberry Pi2 running Windows 10 iot Core. My original thinking was to simply add voice commands to the existing project but I ran into various issues:
+- I could not get the obstacle avoidance part to work, either the breadboard or something else. 
+- micropohones / audio stack gets noisy very easily even w/out the rover moving and the accuracy drops very quickly with the noise from the wheels.
+
+With this mind I have remove the distance sensor and made the rover move only when asked. In addition I have added on GPIO 18 a LED which blinks when it the rover listens. By default the rover listens only to "{Hey] Rover start listening / wake up" and then turns on to allow commands to move forward / backwards and turn plus a few fun ones and "go to sleep". Look in the SRG folder for more details.

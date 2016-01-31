@@ -55,6 +55,40 @@ namespace Rover
             Stop();
         }
 
-       
+        public async Task TurnAroundAsync()
+        {
+            _leftMotor.MoveBackward();
+            _rightMotor.MoveForward();
+
+            await Task.Delay(TimeSpan.FromMilliseconds(1200));
+
+            Stop();
+        }
+
+        public async Task PlayAsync()
+        {
+            await TurnLeftAsync();
+            await TurnRightAsync();
+            await TurnLeftAsync();
+            await TurnRightAsync();
+            await TurnAroundAsync();
+        }
+
+        public async Task AttackAsync()
+        {
+            MoveForward();
+            await Task.Delay(TimeSpan.FromMilliseconds(200));
+            Stop();
+            await Task.Delay(TimeSpan.FromMilliseconds(200));
+            MoveForward();
+            await Task.Delay(TimeSpan.FromMilliseconds(200));
+            Stop();
+            await Task.Delay(TimeSpan.FromMilliseconds(200));
+            MoveBackward();
+            await Task.Delay(TimeSpan.FromMilliseconds(200));
+            Stop();
+        }
+
+
     }
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+<grammar xml:lang="en-US" version="1.0" xmlns="http://www.w3.org/2001/06/grammar"
+         root="SpeechActivation"
+         tag-format="semantics/1.0">
+
+<!--
+  Category: Keyword spotter to start speech reco
+  Description: 
+-->
+
+<rule id="SpeechActivation" scope="public">
+  <example> Hey rover start listening</example>
+  <example> rover start listening </example>
+  <example> Hey rover start listening please </example>
+  <one-of>
+    <item>
+      <item repeat="0-1">Hey</item>
+      Rover
+      <one-of>
+        <item>
+          <one-of>
+            <item>start listening</item>
+            <item>wake up</item>
+            <item>may I have your attention</item>
+          </one-of>
+          <tag>out.action="ActivateSpeechReco"</tag>
+        </item>
+        <item>
+          <one-of>
+            <item>stop listening</item>
+            <item>shutdown</item>
+            <item>go to sleep</item>
+          </one-of>
+          <tag>out.action="StopSpeechReco"</tag>
+        </item>
+      </one-of>
+      <item repeat="0-1">
+        <one-of>
+          <item>please</item>
+          <item>now</item>
+        </one-of>
+      </item>
+    </item>
+    <item>
+      bye 
+      <item repeat="0-1">bye</item>
+      <item repeat="0-1">for now</item> rover
+      <tag>out.action="StopSpeechReco"</tag>
+    </item>
+    <!-- item><ruleref special="GARBAGE"/></item -->
+  </one-of>
+</rule>
+
+</grammar> 

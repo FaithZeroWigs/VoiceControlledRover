@@ -1,0 +1,122 @@
+<?xml version="1.0" ?>
+<grammar xml:lang="en-US" version="1.0" xmlns="http://www.w3.org/2001/06/grammar"
+         root="RoverCommandTop"
+         tag-format="semantics/1.0">
+
+<!--
+  Category: Keyword spotter to start speech reco
+  Description: 
+-->
+
+<rule id="RoverCommandTop" scope="public">
+  <example> </example>
+  <one-of>
+    <item>
+      <item repeat="0-1">
+        <item repeat="0-1">Hey</item>
+        Rover
+      </item>
+      <item><ruleref uri="#RoverCommand"/> <tag>out = rules.latest()</tag></item>
+      <item repeat="0-1">
+        <one-of>
+          <item>please</item>
+          <item>now</item>
+          <item>for god's sake</item>
+          <item>at once</item>
+        </one-of>
+      </item>
+    </item>
+    <!-- item><ruleref special="GARBAGE"/></item -->
+  </one-of>
+</rule>
+  
+<rule id="RoverCommand" scope="public">
+  <example> </example>
+  <one-of>
+    <item><ruleref uri="#RoverCommand_01"/> <tag>out = rules.latest()</tag></item>
+    <item><ruleref uri="#RoverCommand_StateChange"/><tag>out = rules.latest()</tag></item>
+  </one-of>
+</rule>
+
+<rule id="RoverCommand_01" scope="public">
+  <example>Make a right turn</example>
+  <example>The other right</example>
+  <one-of>
+    <item>
+      <item repeat="0-1">
+        <one-of>
+          <item>Move</item>
+          <item>Go</item>
+        </one-of>
+      </item>
+      <item><ruleref uri="#Direction"/> <tag>out = rules.latest()</tag></item>
+    </item>
+    <item>
+      <item repeat="0-1">
+        <one-of>
+          <item>Move</item>
+          <item>Go</item>
+          <item>
+            Turn
+            <item repeat="0-1">to the</item>
+          </item>
+        </one-of>
+      </item>
+      <item><ruleref uri="#Turn_Direction"/> <tag>out = rules.latest()</tag></item>
+    </item>
+    <item>
+      The other  <item><ruleref uri="#Turn_Direction"/> <tag>out = rules.latest()</tag></item>
+    </item>
+    <item>
+      Run  <item><ruleref uri="#Direction"/> <tag>out = rules.latest()</tag></item>
+    </item>
+    <item>
+      <one-of>
+        <item>Do</item>
+        <item>Make</item>
+        <item>Take</item>
+      </one-of>
+      a <item><ruleref uri="#Turn_Direction"/> <tag>out = rules.latest()</tag></item>
+      <item repeat ="0-1">turn</item>
+    </item>
+  </one-of>
+</rule>
+
+<rule id="RoverCommand_StateChange" scope="public">
+  <example> </example>
+  <one-of>
+    <item>
+      stop 
+      <item repeat="0-1">right there</item>
+      <tag>out.action = "Stop"</tag>
+    </item>
+    <item>hit the brakes<tag>out.action = "Stop"</tag></item>
+    <item>play<tag>out.action = "Play"</tag></item>
+    <item>do the hokey pokey<tag>out.action = "Play"</tag></item>
+    <item>do a backflip<tag>out.action = "Play"</tag></item>
+    <item>kill<tag>out.action = "Attack"</tag></item>
+    <item>attack<tag>out.action = "Attack"</tag></item>
+    <item>turn around<tag>out.action = "TurnAround"</tag></item>
+  </one-of>
+</rule>
+
+<rule id="Direction" scope="public">
+  <example> </example>
+  <one-of>
+    <item>ahead<tag>out.action = "Forward"</tag></item>
+    <item>straight<tag>out.action = "Forward"</tag></item>
+    <item>forward<tag>out.action = "Forward"</tag></item>
+    <item>backward<tag>out.action = "Backward"</tag></item>
+    <item>back<tag>out.action = "Backward"</tag></item>
+  </one-of>
+</rule>
+  
+<rule id="Turn_Direction" scope="public">
+  <example> </example>
+  <one-of>
+    <item>left<tag>out.action = "LeftTurn"</tag></item>
+    <item>right<tag>out.action = "RightTurn"</tag></item>
+  </one-of>
+</rule>
+
+</grammar> 

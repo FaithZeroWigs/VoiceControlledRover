@@ -20,7 +20,7 @@ namespace Rover
             _gpioPinTrig = gpio.OpenPin(trigGpioPin);
             _gpioPinEcho = gpio.OpenPin(echoGpioPin);
             _gpioPinTrig.SetDriveMode(GpioPinDriveMode.Output);
-            _gpioPinEcho.SetDriveMode(GpioPinDriveMode.Input);
+            _gpioPinEcho.SetDriveMode(GpioPinDriveMode.InputPullDown);
             _gpioPinTrig.Write(GpioPinValue.Low);
         }
 
@@ -34,7 +34,9 @@ namespace Rover
                 Task.Delay(TimeSpan.FromTicks(100)).Wait();
                 _gpioPinTrig.Write(GpioPinValue.Low);
 
-                if (SpinWait.SpinUntil(() => { return _gpioPinEcho.Read() != GpioPinValue.Low; }, timeoutInMilliseconds))
+                if (SpinWait.SpinUntil(
+                    () => { return _gpioPinEcho.Read() != GpioPinValue.Low; }, 
+                    timeoutInMilliseconds))
                 {
                     var stopwatch = Stopwatch.StartNew();
                     while (stopwatch.ElapsedMilliseconds < timeoutInMilliseconds && _gpioPinEcho.Read() == GpioPinValue.High)
